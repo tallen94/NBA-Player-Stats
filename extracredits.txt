@@ -1,0 +1,4 @@
+For the extra credit, I made the page look nice as well as handle misspelled names. 
+
+Run a search for Stephen Curry and you will get a result. 
+Run a search for Stephen Kurry and you will get the same result.

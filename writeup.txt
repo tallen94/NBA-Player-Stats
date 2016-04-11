@@ -1,0 +1,3 @@
+This is a single page application that will only show the player data section if a GET parameter 'player' is supplied. I used the index file to also query the database so the search bar will remain available to perform as many searches as wanted, instead of going to a new page. It uses PDO to connecto to a MySQL database running on Amazon RDS. The data is NBA player statistics for the 2015-2016 season. Once the database is queried with the supplied player name, a Player object is created that holds the resulting row in its $stats variable. 
+
+The top section of the page contains an input for searching player names. Once a search is ran, the stats section shows up below with a lot of infomation on their season.
