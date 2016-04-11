@@ -1,4 +1,7 @@
 For the extra credit, I made the page look nice as well as handle misspelled names. 
 
+I implemented handling misspelled names with a short algorithm that compares the given name to a list of names using
+the levenshtein PHP method. 
+
 Run a search for Stephen Curry and you will get a result. 
 Run a search for Stephen Kurry and you will get the same result.
