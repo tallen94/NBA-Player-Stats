@@ -41,7 +41,6 @@
         $sth->execute();
 
         $result = $sth->fetchAll();
-        $player = new Player($result);
-        echo $player;
+        echo $result;
     }
 ?>
