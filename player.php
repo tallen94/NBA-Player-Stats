@@ -1,7 +1,6 @@
 <?php
     class Player {
 
-
         function Player($data) {
             $this->stats = $data[0];
         }

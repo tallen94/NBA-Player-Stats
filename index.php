@@ -1,52 +1,5 @@
 <?php
-    require_once('player.php');
-
-    if(isset($_GET["player"])) {
-        $player_name = $_GET["player"];
-        $host = 'info344assign1.caorj1pxcht2.us-west-2.rds.amazonaws.com';
-        $port = '3306';
-        $dbname = 'NBA_Stats';
-        $user = 'info344user';
-        $pass = 'Supertr00per';
-        $charset = 'utf8';
-
-        $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=$charset";
-
-        $playerNames = file('names.txt');
-        $shortest = -1;
-
-        foreach($playerNames as $name) {
-            $lev = levenshtein($player_name, $name);
-            if ($lev == 0) {
-                $closest = trim($name);
-                $shortest = 0;
-                break;
-            }
-
-            if ($lev <= $shortest || $shortest < 0) {
-                $closest = trim($name);
-                $shortest = $lev;
-            }
-        }
-
-        $opt = [
-            PDO::ATTR_ERRMODE		         => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE	 => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES	     => false,
-        ];
-
-        $pdo = new PDO($dsn, $user, $pass, $opt);
-
-        $sql = "SELECT * FROM PLAYER WHERE name LIKE '%$closest%'";
-        
-        try {
-            $stmt = $pdo->query($sql);
-            $data = $stmt->fetchAll();
-        } catch(PDOException $ex) {
-            echo "PDO Error: " . $ex;
-        }
-        $player = new Player($data);
-    }
+    require_once('GetPlayer.php');
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +16,7 @@
             <h1>NBA Player Stats</h1>
             <p >Look for your favorite NBA Player's Stats for the 2015-2016 season.</p>
 
-            <form action="index.php" method="get">
+            <form action="GetPlayer.php" method="get">
                 <div class="form-group">
                     <label for="player">Player Name</label>
                     <input type="text" name="player" id="player" class="form-control">
