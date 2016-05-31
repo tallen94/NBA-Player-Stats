@@ -1,7 +1,8 @@
 <?php
+    dl('extension=php_pdo_mysql.dll');
     require_once('player.php');
-    $player_name = $_GET['player_name'];
-    $callback = $_GET['callback'];
+    $player_name = $argv[0];
+    $callback = $argv[1];
     if(isset($_GET['player_name'])) {
         
         $host = 'info344assign1.caorj1pxcht2.us-west-2.rds.amazonaws.com';
@@ -42,6 +43,6 @@
         $sth->execute();
 
         $result = $sth->fetchAll();
-        echo $callback . "(" . $result . ")";
+        print($callback . "(" . $result . ")");
     }
 ?>
