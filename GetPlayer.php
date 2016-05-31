@@ -1,8 +1,9 @@
 <?php
     require_once('player.php');
-
+    $player_name = $_GET['player_name'];
+    $callback = $_GET['callback'];
     if(isset($_GET['player_name'])) {
-        $player_name = $_GET['player_name'];
+        
         $host = 'info344assign1.caorj1pxcht2.us-west-2.rds.amazonaws.com';
         $port = '3306';
         $dbname = 'NBA_Stats';
@@ -41,6 +42,6 @@
         $sth->execute();
 
         $result = $sth->fetchAll();
-        echo $result;
+        echo $callback . "(" . $result . ")";
     }
 ?>
