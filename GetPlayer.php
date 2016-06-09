@@ -1,10 +1,8 @@
 <?php
-    dl('extension=php_pdo_mysql.dll');
-    require_once('player.php');
-    $player_name = $argv[0];
-    $callback = $argv[1];
-    if(isset($_GET['player_name'])) {
-        
+    $player_name = $_GET['player_name'];
+    $callback = $_GET['callback'];
+    if(isset($player_name) && isset($callback)) {
+         
         $host = 'info344assign1.caorj1pxcht2.us-west-2.rds.amazonaws.com';
         $port = '3306';
         $dbname = 'NBA_Stats';
@@ -14,23 +12,6 @@
 
         $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=$charset";
 
-        $playerNames = file('names.txt');
-        $shortest = -1;
-
-        foreach($playerNames as $name) {
-            $lev = levenshtein($player_name, $name);
-            if ($lev == 0) {
-                $closest = trim($name);
-                $shortest = 0;
-                break;
-            }
-
-            if ($lev <= $shortest || $shortest < 0) {
-                $closest = trim($name);
-                $shortest = $lev;
-            }
-        }
-
         $opt = [
             PDO::ATTR_ERRMODE		         => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE	 => PDO::FETCH_ASSOC,
@@ -38,11 +19,12 @@
         ];
 
         $pdo = new PDO($dsn, $user, $pass, $opt);
-        $sth = $pdo->prepare('SELECT * FROM PLAYER WHERE name LIKE :name');
-        $sth->bindParam(':name', "%{$closest}%");
+        $sth = $pdo->prepare("SELECT * FROM PLAYER WHERE name LIKE :name");
+        $param = '%' . $player_name . '%';
+        $sth->bindParam(':name', $param, PDO::PARAM_STR);
         $sth->execute();
 
         $result = $sth->fetchAll();
-        print($callback . "(" . $result . ")");
+        echo $callback . '(' . json_encode($result) . ')';
     }
 ?>
